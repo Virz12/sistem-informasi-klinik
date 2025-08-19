@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
+            $table->string('record_number')->unique();
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('doctor_id')->nullable();
             $table->datetime('visit_date');

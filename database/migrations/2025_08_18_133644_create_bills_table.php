@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
+            $table->string('bill_number')->unique();
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('medical_record_id');
             $table->unsignedBigInteger('cashier_id')->nullable();
