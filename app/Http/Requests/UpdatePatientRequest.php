@@ -12,7 +12,7 @@ class UpdatePatientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('edit_patients');
+        return $this->user()->hasRole('petugas_pendaftaran');
     }
 
     /**
@@ -27,6 +27,7 @@ class UpdatePatientRequest extends FormRequest
             'birth_date' => ['required', 'date', 'before:today'],
             'gender' => ['required', Rule::in(['pria', 'wanita'])],
             'phone' => ['nullable', 'string', 'max:20'],
+            'district_id' => ['required', 'exists:districts,id'],
             'address' => ['required', 'string'],
             'allergies' => ['nullable', 'string'],
         ];

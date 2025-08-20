@@ -1,27 +1,28 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\Admin\DistrictController;
+use App\Http\Controllers\Admin\MedicineController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PatientManagement\PatientManagementController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+});
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Admin
+Route::middleware(['auth', 'role:admin'])->prefix('dashboard')->group(function () {
+    Route::resource('district', DistrictController::class)->names('admin.district');
+    Route::resource('medicine', MedicineController::class)->names('admin.medicine');
+});
+
+// Petugas Pendaftaran
+Route::middleware(['auth', 'role:petugas_pendaftaran'])->prefix('dashboard')->group(function () {
+    Route::resource('patient', PatientManagementController::class)->names('patient_management.patient');
 });
 
 require __DIR__.'/auth.php';

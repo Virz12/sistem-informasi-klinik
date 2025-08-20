@@ -10,9 +10,4 @@ class Medicine extends Model
         'name', 'brand', 'dosage_form',
         'unit_price', 'stock_quantity', 'is_active'
     ];
-
-    public function medicineRecords()
-    {
-        return $this->hasMany(MedicineRecord::class);
-    }
 }

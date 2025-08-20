@@ -11,7 +11,7 @@ class UpdateMedicineRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('manage_medicines');
+        return $this->user()->hasRole('admin');
     }
 
     /**
@@ -27,6 +27,7 @@ class UpdateMedicineRequest extends FormRequest
             'dosage_form' => ['required', 'string', 'max:100'],
             'unit_price' => ['required', 'numeric', 'min:0'],
             'stock_quantity' => ['required', 'integer', 'min:0'],
+            'is_active' => ['required', 'boolean'],
         ];
     }
 }

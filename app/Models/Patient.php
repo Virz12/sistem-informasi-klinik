@@ -13,8 +13,10 @@ class Patient extends Model
      */
     protected $fillable = [
         'name',
-        'birth_data',
+        'patient_id',
+        'birth_date',
         'gender',
+        'district_id',
         'phone',
         'address',
         'allergies'
@@ -27,20 +29,5 @@ class Patient extends Model
     public function district()
     {
         return $this->belongsTo(District::class);
-    }
-    
-    public function medicalRecords()
-    {
-        return $this->hasMany(MedicalRecord::class);
-    }
-
-    public function medicineRecords()
-    {
-        return $this->hasMany(MedicineRecord::class);
-    }
-    
-    public function bills()
-    {
-        return $this->hasMany(Bill::class);
     }
 }
